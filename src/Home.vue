@@ -30,27 +30,15 @@
             </div>
         </div>
 
-        <modal v-model="show" effect="fade">
-
-                    <div slot="modal-header" class="modal-header" >
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">Modal title</h4>
-                    </div>
-                    <div slot="modal-body" class="modal-body">
-                        <p>One fine body&hellip;</p>
-                    </div>
-                    <div slot="modal-footer" class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal" @click="show = false">Close</button>
-                    </div>
-
-        </modal>
-
+        <div v-if="show">
+            <home-modal :show="show"></home-modal>
+        </div>
 
     </div>
 </template>
 <script>
 
-    import Modal from 'vue-strap/src/Modal.vue';
+    const HomeModal = () => import(/* webpackChunkName: "modal" */ './HomeModal.vue');
 
     export default {
         data() {
@@ -59,7 +47,7 @@
             }
         },
         components: {
-            Modal
+            HomeModal
         }
     }
 

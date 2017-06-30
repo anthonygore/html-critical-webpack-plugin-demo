@@ -72,7 +72,7 @@ if (process.env.NODE_ENV === 'production') {
         NODE_ENV: '"production"'
       }
     }),
-    new BabiliPlugin(),
+    //new BabiliPlugin(),
     new webpack.LoaderOptionsPlugin({
       minimize: true
     })
