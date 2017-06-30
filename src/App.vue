@@ -28,8 +28,9 @@
   Vue.use(VueRouter);
 
   import Home from './Home.vue';
-  import About from './About.vue';
-  import Contact from './Contact.vue';
+
+  const About = () => import(/* webpackChunkName: "about" */ './About.vue');
+  const Contact = () => import(/* webpackChunkName: "contact" */ './Contact.vue');
 
   const routes = [
     { path: '/', name: 'home', component: Home },
