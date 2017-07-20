@@ -6,48 +6,42 @@
             <p><button class="btn btn-lg btn-success" role="button" @click="show = true">Sign up today</button></p>
         </div>
 
-        <div class="row marketing">
-            <div class="col-lg-6">
-                <h4>Subheading</h4>
-                <p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
+        <!--<async-component></async-component>-->
 
-                <h4>Subheading</h4>
-                <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
-
-                <h4>Subheading</h4>
-                <p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
-            </div>
-
-            <div class="col-lg-6">
-                <h4>Subheading</h4>
-                <p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
-
-                <h4>Subheading</h4>
-                <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
-
-                <h4>Subheading</h4>
-                <p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
-            </div>
+        <div v-if="below">
+            <below-fold></below-fold>
         </div>
 
-        <div v-if="show">
-            <home-modal :show="show"></home-modal>
-        </div>
+        <home-modal v-if="show":show="show"></home-modal>
 
     </div>
 </template>
 <script>
 
-    const HomeModal = () => import(/* webpackChunkName: "modal" */ './HomeModal.vue');
+    import Vue from 'vue';
+    //Vue.component('async-component', () => import(/* webpackChunkName: "async" */ './AsyncComponent.js'));
+
+    //const HomeModal = () => import(/* webpackChunkName: "modal" */ './HomeModal.vue');
+    import HomeModal from './HomeModal.vue';
+    //const BelowFold = () => import(/* webpackChunkName: "below-fold" */ './BelowFold.vue');
+    import BelowFold from './BelowFold.vue';
+
 
     export default {
         data() {
             return {
-                show: false
+                show: false,
+                below: false
             }
         },
+        created() {
+            setTimeout(() => {
+                this.below = true;
+            }, 2000);
+        },
         components: {
-            HomeModal
+            HomeModal,
+            BelowFold
         }
     }
 

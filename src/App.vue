@@ -27,8 +27,7 @@
 
   Vue.use(VueRouter);
 
-  import Home from './Home.vue';
-
+  const Home = () => import(/* webpackChunkName: "home" */ './Home.vue');
   const About = () => import(/* webpackChunkName: "about" */ './About.vue');
   const Contact = () => import(/* webpackChunkName: "contact" */ './Contact.vue');
 

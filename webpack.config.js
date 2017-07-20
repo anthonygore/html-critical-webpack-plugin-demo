@@ -1,25 +1,35 @@
 var path = require('path')
 var webpack = require('webpack')
 const BabiliPlugin = require("babili-webpack-plugin");
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const CriticalPlugin = require('html-critical-webpack-plugin');
+var HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
   entry: './src/main.js',
   output: {
     path: path.resolve(__dirname, './dist'),
-    publicPath: '/dist/',
+    publicPath: '/',
     filename: 'build_[name].js'
   },
   module: {
     rules: [
       {
         test: /\.scss$/,
-        use: [{
-          loader: "style-loader" // creates style nodes from JS strings
-        }, {
-          loader: "css-loader" // translates CSS into CommonJS
-        }, {
-          loader: "sass-loader" // compiles Sass to CSS
-        }]
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          //resolve-url-loader may be chained before sass-loader if necessary
+          use: ['css-loader', 'sass-loader']
+        })
+        // use: [
+        //   { loader: "style-loader" // creates style nodes from JS string
+        //   }, {
+        //     loader: "css-loader" // translates CSS into CommonJS
+        //   }, {
+        //    loader: "sass-loader" // compiles Sass to CSS
+        //   }
+        // ],
+
       },
       {
         test: /\.vue$/,
@@ -60,8 +70,32 @@ module.exports = {
   performance: {
     hints: false
   },
-  devtool: '#eval-source-map'
-}
+  devtool: '#eval-source-map',
+  plugins: [
+    new HtmlWebpackPlugin({
+      filename: 'index.html',
+      template: 'index.html',
+      inject: true,
+      minify: {
+        removeComments: true,
+        collapseWhitespace: true,
+      },
+    }),
+    new ExtractTextPlugin({filename: 'style.css' }),
+    new CriticalPlugin({
+      base: path.join(path.resolve(__dirname), 'dist/'),
+      src: 'index.html',
+      dest: 'index.html',
+      inline: true,
+      minify: true,
+      width: 375,
+      height: 565,
+      penthouse: {
+        blockJSRequests: false,
+      }
+    })
+  ]
+};
 
 if (process.env.NODE_ENV === 'production') {
   module.exports.devtool = '#source-map'
@@ -72,7 +106,7 @@ if (process.env.NODE_ENV === 'production') {
         NODE_ENV: '"production"'
       }
     }),
-    //new BabiliPlugin(),
+    new BabiliPlugin(),
     new webpack.LoaderOptionsPlugin({
       minimize: true
     })
