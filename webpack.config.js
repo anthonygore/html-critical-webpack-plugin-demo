@@ -81,17 +81,18 @@ module.exports = {
         collapseWhitespace: true,
       },
     }),
-    new ExtractTextPlugin({filename: 'style.css' }),
+    new ExtractTextPlugin({filename: 'style.css', ignoreOrder: true }),
     new CriticalPlugin({
       base: path.join(path.resolve(__dirname), 'dist/'),
       src: 'index.html',
       dest: 'index.html',
       inline: true,
-      minify: true,
-      width: 375,
-      height: 565,
+      minify: false,
+      extract: true,
+      width: 1300, //375,
+      height: 900, //565,
       penthouse: {
-        blockJSRequests: false,
+        blockJSRequests: false
       }
     })
   ]
